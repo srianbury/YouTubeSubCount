@@ -1,5 +1,5 @@
 # YouTubeSubCount
-Get the number of subscribers from any YouTube channel!
+Get the number of subscribers from any YouTube channel in less than 20 easy to read lines of code!
 
 ## How to use:
 Enter the profile url for any YouTube channel.  To test, enter a blank string and a url will be provided for you
