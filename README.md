@@ -2,7 +2,7 @@
 Get the number of subscribers from any YouTube channel in less than 20 easy to read lines of code!
 
 ## How to use:
-Enter the profile url for any YouTube channel.  To test, enter a blank string and a url will be provided for you
+Enter the profile url for any YouTube channel.  If you are using PyCharm, make sure to hti space after you enter the url to prevent it from opening.  To test, enter a blank string (just press return/enter) and a url will be provided for you.
 
 
 ## Motivation
