@@ -1,23 +1,53 @@
-import selenium.webdriver as web_driver
-from bs4 import BeautifulSoup
-import re
+from urllib.request import urlopen
+import json
+import time
 
-url = input('gimme dat url ').strip() or 'https://www.youtube.com/channel/UC78cxCAcp7JfQPgKxYdyGrg' # get url
-print('scrapping {url}'.format(url=url))
 
-driver = web_driver.Firefox() # open firefox
-driver.get(url) # go to url with firefox
+#provide API key here
+key='Enter Youtube API key'
 
-soup = BeautifulSoup(driver.page_source, 'html.parser')
-driver.close()
 
-# get amount of subscribers
-sub_divs = soup.findAll(id='subscriber-count')
-n_subscribers = sub_divs[len(sub_divs)-1].text
-subscribers = int(re.sub('\D', '', n_subscribers)) #only get the number from e.g. 10,943,836 subscribers
+def channelid(ans):
+    #to eliminate spaces between search queries with %20
+    str1='%20'.join([str(ele) for ele in ans])
+    #Use yt API to give search results for username
+    site1=urlopen('https://www.googleapis.com/youtube/v3/search?part=snippet&q='+str1 +'&type=channel&key='+key)
+    #loads data to a json file format
+    a1 = json.load(site1)
+    #to get channelid and channelname using username
+    ucid=str(a1.get("items")[0].get("id").get('channelId'))
+    
+    channelname=a1.get("items")[0].get("snippet").get('title')
+    #returns channelid & channelname
+    return(ucid,channelname)
+    
+    
+def returnurl(ucid):
+    #creates and returns url for statistics usin channelid
+    u='https://www.googleapis.com/youtube/v3/channels?id='+ucid+'&key='+key+'&part=statistics'
+    return(u)
 
-# get username
-title_divs = soup.findAll(id='channel-title')
-username = title_divs[len(title_divs)-1].text
 
-print('\n{name} has {subscribers} subscribers!!!!!'.format(name=username, subscribers='{:,}'.format(subscribers)))
+def fetchsubs(url):
+    site=urlopen(url)
+    a = json.load(site)
+    #returns subs count
+    return(int(a.get("items")[0].get("statistics").get("subscriberCount")))
+    
+    
+def printresult(subs,username):
+    print(username,'Has' , str(subs) ,'Subscribers!!🎉🎉🎉' )
+    
+    
+def main():
+    print("Welcome to Subscriber Counter")
+    time.sleep(3)
+    ans1=str(input('Input Username : ' )).split()
+    channel_id,name=channelid(ans1)
+    url=returnurl(channel_id)
+    subs=fetchsubs(url)
+    printresult(subs,name)
+        
+
+if __name__ == '__main__':
+    main()
