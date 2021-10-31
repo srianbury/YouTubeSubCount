@@ -7,3 +7,5 @@ Enter the profile url for any YouTube channel.  If you are using PyCharm, make s
 
 ## Motivation
 I wanted to receive a notification when a YouTuber I like hit a certain subscriber count.  I integrated this with an texting/sms library and put the code in a loop to constantly update and it texted me when that threshold was met.
+@bhanusolanki
+
